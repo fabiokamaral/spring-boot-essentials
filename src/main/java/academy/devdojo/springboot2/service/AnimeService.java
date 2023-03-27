@@ -19,6 +19,9 @@ public class AnimeService {
 
     private final AnimeRepository animeRepository;
 
+    /**
+     *  O objeto Pageable é do próprio Spring Framework.
+     */
     public Page<Anime> listAll(Pageable pageable) {
         return animeRepository.findAll(pageable);
     }
