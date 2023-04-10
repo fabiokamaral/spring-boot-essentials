@@ -47,12 +47,36 @@ public class SpringClient {
         log.info("kingdomSaved: {}", kingdomSaved);
 
         Anime samuraiChamploo = Anime.builder().name("Samurai Champloo").build();
-        ResponseEntity<Object> samuraiChamplooSaved = new RestTemplate().exchange("http://localhost:8080/animes",
+        ResponseEntity<Anime> samuraiChamplooSaved = new RestTemplate().exchange("http://localhost:8080/animes",
                 HttpMethod.POST,
                 new HttpEntity<>(samuraiChamploo),
                 new ParameterizedTypeReference<>() {
                 });
         log.info("samuraiChamplooSaved: {}", samuraiChamplooSaved.getBody());
+        //##############################################################################################################
+
+        //#################
+        // PUT
+        //##############################################################################################################
+        Anime animeToBeUpdated = samuraiChamplooSaved.getBody();
+        animeToBeUpdated.setName("samurai champloo 2");
+
+        ResponseEntity<Void> samuraiChamplooUpdated = new RestTemplate().exchange("http://localhost:8080/animes",
+                HttpMethod.PUT,
+                new HttpEntity<>(animeToBeUpdated),
+                Void.class);
+        log.info(samuraiChamplooUpdated);
+        //##############################################################################################################
+
+        //#################
+        // DELETE
+        //##############################################################################################################
+        ResponseEntity<Void> samuraiChamplooDeleted = new RestTemplate().exchange("http://localhost:8080/animes/{id}",
+                HttpMethod.DELETE,
+                null,
+                Void.class,
+                animeToBeUpdated.getId());
+        log.info(samuraiChamplooDeleted);
         //##############################################################################################################
     }
 }
