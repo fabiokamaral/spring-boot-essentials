@@ -1,6 +1,7 @@
 package academy.devdojo.springboot2.repository;
 
 import academy.devdojo.springboot2.domain.Anime;
+import academy.devdojo.springboot2.util.AnimeCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class AnimeRepositoryTest {
     @DisplayName("Save persists anime when successful")
     public void save_PersistsAnime_WhenSuccessful() {
         //Save
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeSaved = this.animeRepository.save(animeToBeSaved);
         Assertions.assertThat(animeSaved).isNotNull();
         Assertions.assertThat(animeSaved.getId()).isNotNull();
@@ -34,7 +35,7 @@ class AnimeRepositoryTest {
     @DisplayName("Save updates anime when successful")
     public void save_UpdatesAnime_WhenSuccessful() {
         //Save
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeSaved = this.animeRepository.save(animeToBeSaved);
 
         //Update
@@ -50,7 +51,7 @@ class AnimeRepositoryTest {
     @DisplayName("Delete removes anime when successful")
     public void delete_RemovesAnime_WhenSuccessful() {
         //Save
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeSaved = this.animeRepository.save(animeToBeSaved);
         Assertions.assertThat(animeSaved).isNotNull();
         Assertions.assertThat(animeSaved.getId()).isNotNull();
@@ -66,7 +67,7 @@ class AnimeRepositoryTest {
     @DisplayName("Find By Name returns anime when successful")
     public void findByName_ReturnsAnime_WhenSuccessful() {
         //Save
-        Anime animeToBeSaved = createAnime();
+        Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeSaved = this.animeRepository.save(animeToBeSaved);
         Assertions.assertThat(animeSaved).isNotNull();
         Assertions.assertThat(animeSaved.getId()).isNotNull();
@@ -92,16 +93,15 @@ class AnimeRepositoryTest {
     public void save_ThrowsConstraintViolationException_WhenNameIsEmpty() {
         //Save
         Anime anime = new Anime();
-//        Assertions.assertThatThrownBy(() -> this.animeRepository.save(anime))
-//                .isInstanceOf(ConstraintViolationException.class);
-
+/*
+        Assertions.assertThatThrownBy(() -> this.animeRepository.save(anime))
+                .isInstanceOf(ConstraintViolationException.class);
+*/
         Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
                 .isThrownBy(() -> this.animeRepository.save(anime))
                 .withMessageContaining("The anime name cannot be empty");
     }
 
-    private Anime createAnime() {
-        return Anime.builder().name("Hajime no ippo").build();
-    }
+
 
 }
